@@ -1,19 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { IoToday } from 'react-icons/io5';
 import { Link } from 'react-router-dom';
-import { login, logout, onUserStateChange } from '../api/firebase';
+import { useAuthContext } from '../context/AuthContext';
 import Button from './ui/Button';
 import User from './User';
 
 export default function Header() {
-  const [user, setUser] = useState();
-
-  useEffect(() => {
-    onUserStateChange((user) => {
-      console.log(user);
-      setUser(user);
-    });
-  }, []);
+  const { user, login, logout } = useAuthContext();
 
   return (
     <header className='flex justify-between border-b border-slate-200 p-4'>
