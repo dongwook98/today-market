@@ -6,10 +6,12 @@ import User from './User';
 
 export default function Header() {
   const [user, setUser] = useState();
-  console.log(user);
 
   useEffect(() => {
-    onUserStateChange((user) => setUser(user));
+    onUserStateChange((user) => {
+      console.log(user);
+      setUser(user);
+    });
   }, []);
 
   return (
@@ -23,7 +25,7 @@ export default function Header() {
         {user && (
           <>
             <Link to='/carts'>장바구니</Link>
-            <Link to='/products/new'>상품 추가하기</Link>
+            {user.isAdmin && <Link to='/products/new'>상품 추가하기</Link>}
             {user && <User user={user} />}
           </>
         )}
