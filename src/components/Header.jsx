@@ -6,14 +6,10 @@ import User from './User';
 
 export default function Header() {
   const [user, setUser] = useState();
-  const [admin, setAdmin] = useState();
   console.log(user);
-  console.log('admin', admin);
+
   useEffect(() => {
-    onUserStateChange(
-      (user) => setUser(user),
-      (user) => setAdmin({ ...user, admin: user.uid })
-    );
+    onUserStateChange((user) => setUser(user));
   }, []);
 
   return (
