@@ -1,7 +1,8 @@
 import React from 'react';
-import { IoToday, IoCartOutline } from 'react-icons/io5';
+import { IoToday } from 'react-icons/io5';
 import { Link } from 'react-router-dom';
 import { useAuthContext } from '../context/AuthContext';
+import CartStatus from './CartStatus';
 import Button from './ui/Button';
 import User from './User';
 
@@ -17,12 +18,9 @@ export default function Header() {
       <nav className='flex items-center gap-x-4 md:gap-x-6 font-semibold'>
         <Link to='/products'>상품 구경하기</Link>
         {user && (
-          <>
-            <Link to='/carts'>
-              <IoCartOutline className='text-4xl' />
-            </Link>
-            {true && <div></div>}
-          </>
+          <Link to='/carts'>
+            <CartStatus />
+          </Link>
         )}
         {user && user.isAdmin && <Link to='/products/new'>상품 추가하기</Link>}
         {user && <User user={user} />}
