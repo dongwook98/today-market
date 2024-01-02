@@ -1,36 +1,30 @@
 import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import { addOrUpdateToCart } from '../api/firebase';
 import Button from '../components/ui/Button';
-import { useAuthContext } from '../context/AuthContext';
+import useCart from '../hooks/useCart';
 
 export default function ProductDetail() {
-  const { uid } = useAuthContext();
+  const { addOrUpdateItem } = useCart();
   const {
     state: {
-      product,
       product: { id, image, title, category, price, description, options },
     },
   } = useLocation();
   const [selected, setSelected] = useState(options && options[0]);
-  const [isUploading, setIsUploading] = useState(false);
   const [success, setSuccess] = useState();
 
   const handleSelect = (e) => setSelected(e.target.value);
 
-  const handleClick = (e) => {
-    setIsUploading(true);
+  const handleClick = () => {
     const product = { id, image, title, price, options: selected, quantity: 1 };
-    addOrUpdateToCart(uid, product) //
-      .then(() => {
-        setSuccess('성공적으로 장바구니에 추가 했습니다.');
+    addOrUpdateItem.mutate(product, {
+      onSuccess: () => {
+        setSuccess('성공적으로 장바구니에 추가되었습니다.');
         setTimeout(() => {
           setSuccess(null);
         }, 4000);
-      })
-      .finally(() => {
-        setIsUploading(false);
-      });
+      },
+    });
   };
 
   return (
@@ -61,9 +55,13 @@ export default function ProductDetail() {
             </select>
           </div>
           <Button
-            text={isUploading ? '장바구니에 추가중...' : '장바구니에 추가'}
+            text={
+              addOrUpdateItem.isLoading
+                ? '장바구니에 추가중...'
+                : '장바구니에 추가'
+            }
             onClick={handleClick}
-            disabled={isUploading}
+            disabled={addOrUpdateItem.isLoading}
           />
           {success && <p>✅ {success}</p>}
         </div>
