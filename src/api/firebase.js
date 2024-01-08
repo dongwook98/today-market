@@ -66,6 +66,7 @@ export async function addNewProduct(product, imageUrl) {
 }
 
 export async function getProducts() {
+  console.log('실행');
   return get(ref(database, 'products')) //
     .then((snapshot) => {
       if (snapshot.exists()) {

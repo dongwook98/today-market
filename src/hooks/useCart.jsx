@@ -6,20 +6,21 @@ export default function useCart() {
   const { uid } = useAuthContext();
   const queryClient = useQueryClient();
 
-  const cartQuery = useQuery(['carts', uid || ''], () => getCart(uid), {
+  const cartQuery = useQuery({
+    queryKey: ['carts', uid || ''],
+    queryFn: () => getCart(uid),
     enabled: !!uid, // uid가 trued일때만 쿼리
   });
 
-  const addOrUpdateItem = useMutation(
-    (product) => addOrUpdateToCart(uid, product),
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries(['carts', uid]);
-      },
-    }
-  );
+  const addOrUpdateItem = useMutation({
+    mutationFn: (product) => addOrUpdateToCart(uid, product),
+    onSuccess: () => {
+      queryClient.invalidateQueries(['carts', uid]);
+    },
+  });
 
-  const removeItem = useMutation((id) => removeFromCart(uid, id), {
+  const removeItem = useMutation({
+    mutationFn: (id) => removeFromCart(uid, id),
     onSuccess: () => {
       queryClient.invalidateQueries(['carts', uid]);
     },
