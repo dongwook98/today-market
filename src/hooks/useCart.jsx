@@ -7,7 +7,7 @@ export default function useCart() {
   const queryClient = useQueryClient();
 
   const cartQuery = useQuery(['carts', uid || ''], () => getCart(uid), {
-    enabled: !!uid,
+    enabled: !!uid, // uid가 trued일때만 쿼리
   });
 
   const addOrUpdateItem = useMutation(
@@ -21,7 +21,7 @@ export default function useCart() {
 
   const removeItem = useMutation((id) => removeFromCart(uid, id), {
     onSuccess: () => {
-      queryClient.invalidateQueries('carts', uid);
+      queryClient.invalidateQueries(['carts', uid]);
     },
   });
 

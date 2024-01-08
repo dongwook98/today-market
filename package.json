@@ -42,5 +42,6 @@
   },
   "devDependencies": {
     "tailwindcss": "^3.4.0"
-  }
+  },
+  "homepage": "https://dongwook98-today-market.netlify.app/"
 }

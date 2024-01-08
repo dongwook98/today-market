@@ -22,11 +22,11 @@ const provider = new GoogleAuthProvider();
 provider.setCustomParameters({ prompt: 'select_account' });
 const database = getDatabase(app);
 
-export function login() {
+export async function login() {
   return signInWithPopup(auth, provider).catch(console.error);
 }
 
-export function logout() {
+export async function logout() {
   return signOut(auth).catch(console.error);
 }
 
